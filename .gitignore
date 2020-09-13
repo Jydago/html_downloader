@@ -1,0 +1,10 @@
+# System files
+.idea/*
+.idea_modules/*
+
+# Scala system files
+out/*
+target/*
+
+# Output files from program
+temp_output/*
