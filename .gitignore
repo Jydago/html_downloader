@@ -8,3 +8,4 @@ target/*
 
 # Output files from program
 temp_output/*
+download_output/*

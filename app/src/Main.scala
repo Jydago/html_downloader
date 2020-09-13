@@ -1,19 +1,24 @@
-package wget
+import wget.ExtractUtils
 
 object Main extends App {
 
   def runSyncDownload(uri: String, basePath: os.Path, maxDepth: Int): Set[String] = {
-    SyncDownload.recursiveSaveHtml(uri, basePath, maxDepth)
+    import wget.SyncDownload
+    SyncDownload.recursiveSaveHtml(ExtractUtils, uri, basePath, maxDepth)
   }
 
   def runAsyncDownload(uri: String, basePath: os.Path, maxDepth: Int): Set[String] = {
+    import org.asynchttpclient.Dsl.asyncHttpClient
+    import wget.AsyncDownload
+
     import scala.concurrent.duration.Duration
     import scala.concurrent.{Await, ExecutionContext}
 
-    implicit val ec: ExecutionContext = ExecutionContext.global
-    val allSubLinksF = AsyncDownload.recurseSaveHtmlAsync(uri, basePath, maxDepth)
-    val allSubLinks = Await.result(allSubLinksF, Duration.Inf).toSeq.sorted
-    println(s"A total of ${allSubLinks.length} pages were downloaded")
+    implicit val ex: ExecutionContext = ExecutionContext.global // ExecutionContext.global can handle `blocking{}` call inside Futures
+    // FixedThreadPool doesn't support `blocking{}`
+    //    implicit val ec: ExecutionContext = ExecutionContext.fromExecutorService(Executors.newFixedThreadPool(4))
+    val client = asyncHttpClient()
+    val allSubLinksF = AsyncDownload.recurseSaveHtmlAsync(ExtractUtils, uri, basePath, maxDepth, client)
     Await.result(allSubLinksF, Duration.Inf)
   }
 
