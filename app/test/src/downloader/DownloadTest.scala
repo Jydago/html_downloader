@@ -1,4 +1,4 @@
-package wget
+package downloader
 
 import org.asynchttpclient.AsyncHttpClient
 import org.jsoup.nodes.Document

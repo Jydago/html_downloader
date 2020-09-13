@@ -1,4 +1,4 @@
-package wget
+package downloader
 
 import os.{Path, SubPath}
 

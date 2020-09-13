@@ -1,4 +1,4 @@
-package wget
+package downloader
 
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document

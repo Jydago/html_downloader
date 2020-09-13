@@ -1,4 +1,4 @@
-package wget
+package downloader
 
 import org.scalatest.funsuite.AnyFunSuite
 import os.{Path, SubPath}

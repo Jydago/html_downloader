@@ -1,15 +1,17 @@
-import wget.ExtractUtils
+import downloader.ExtractUtils
+
+import scala.util.Try
 
 object Main extends App {
 
   def runSyncDownload(uri: String, basePath: os.Path, maxDepth: Int): Set[String] = {
-    import wget.SyncDownload
+    import downloader.SyncDownload
     SyncDownload.recursiveSaveHtml(ExtractUtils, uri, basePath, maxDepth)
   }
 
   def runAsyncDownload(uri: String, basePath: os.Path, maxDepth: Int): Set[String] = {
     import org.asynchttpclient.Dsl.asyncHttpClient
-    import wget.AsyncDownload
+    import downloader.AsyncDownload
 
     import scala.concurrent.duration.Duration
     import scala.concurrent.{Await, ExecutionContext}
@@ -25,7 +27,7 @@ object Main extends App {
   val uri = args(1)
   val basePath = os.pwd / "download_output"
   if (os.exists(basePath)) os.remove.all(basePath)
-  val maxDepth = args(2).toInt
+  val maxDepth = Try(args(2).toInt).getOrElse(-1)
 
   val allSubLinks = args(0) match {
     case "sync" => runSyncDownload(uri, basePath, maxDepth)

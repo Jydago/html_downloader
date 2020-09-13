@@ -1,4 +1,4 @@
-package wget
+package downloader
 
 import java.net.UnknownHostException
 
