@@ -12,10 +12,11 @@ object app extends ScalaModule {
 
   object test extends Tests {
     override def ivyDeps = Agg(
-      ivy"org.scalatest::scalatest:3.2.0",
-      ivy"org.scalamock::scalamock:5.0.0"
+      ivy"com.lihaoyi::utest:0.7.2",
+      ivy"org.mockito::mockito-scala:1.15.0"
+
     )
-    def testFrameworks = Seq("org.scalatest.tools.Framework")
+    def testFrameworks = Seq("utest.runner.Framework")
   }
 
 }
